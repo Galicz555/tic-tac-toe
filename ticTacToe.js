@@ -22,6 +22,8 @@ let ticTacToe = {
 			'columnSetterField'
 		).value;
 
+		ticTacToe.playerTurnIndicator = document.getElementById('turnIndicator');
+		ticTacToe.turn = 0;
 
 
 		this.setNumberOfPlayerOptions();
@@ -66,6 +68,8 @@ let ticTacToe = {
 				)[i].value;
 				if (nameInput && markInput) {
 					this.players.push({ [nameInput]: markInput });
+				} else if (nameInput && !markInput) {
+					this.players.push({ [nameInput]: reserveMarks[counter] });
 				} else if (counter < reserveMarks.length) {
 					this.players.push({ [`Player${[i+1]}`]: reserveMarks[counter] });
 				} else {
@@ -74,7 +78,9 @@ let ticTacToe = {
 				}
 				counter++;
 			}
-			console.log(this.players);
+			document.getElementById('turnIndicator').textContent =
+				Object.keys(this.players[this.turn])
+				+ this.playerTurnIndicator.textContent;
 		});
 	},
 
@@ -108,7 +114,7 @@ let ticTacToe = {
 	},
 
 	addSquareClickListener: function () {
-		let squares = Array.from(document.getElementsByClassName('board__square'))
+		const squares = Array.from(document.getElementsByClassName('board__square'))
 		squares.forEach(square => {
 			square.addEventListener('click', this.handleClick, { once: true });
 		});
@@ -116,7 +122,19 @@ let ticTacToe = {
 
 	handleClick: function (e) {
 		const square = e.target;
-		console.log(square)
+		ticTacToe.turnProgress();
+		square.textContent = Object.values(ticTacToe.players[ticTacToe.turn-1])
+	},
+
+	turnProgress: function () {
+		if (this.turn >= this.players.length) {
+			this.turn = 0;
+		}
+		this.turn++;
+		let stringArray = document.getElementById('turnIndicator').textContent.split("'");
+		stringArray[0] = Object.keys(this.players[this.turn-1]);
+		let newString = stringArray.join("'")
+		document.getElementById('turnIndicator').textContent = newString;
 	},
 
 	setHtmlBoardSize: function () {
