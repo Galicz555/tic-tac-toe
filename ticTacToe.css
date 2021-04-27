@@ -1,10 +1,6 @@
-*, *::after, *::before {
-	box-sizing: border-box;
-}
-
 :root {
-	--columnRow: 3;
-	--gridHeight: 100px;
+	--columnRow: 10;
+	--gridSize: 50px;
 }
 
 body {
@@ -16,15 +12,18 @@ body {
 	height: 100vh;
 	display: grid;
 	grid-template-columns: repeat(var(--columnRow), auto);
-	grid-template-rows: repeat(var(--columnRow), var(--gridHeight));
+	grid-template-rows: repeat(var(--columnRow), var(--gridSize));
 	justify-content: center;
 	align-content: center;
 }
 
 .board__square {
-	width: 100px;
-	height: var(--gridHeight);
-	background-color: white;
+	width: var(--gridSize);
+	height: var(--gridSize);
 	border: 1px solid black;
-
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: bolder;
+	font-size: 2.5rem;
 }
