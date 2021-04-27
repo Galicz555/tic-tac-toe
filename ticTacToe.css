@@ -7,15 +7,37 @@ body {
 	margin: 0;
 }
 
+.players__numbers {
+	margin-bottom: 15px;
+}
+
 .players__options {
 	display: grid;
 	grid-template-columns: repeat(4, auto);
-	align-content: center;
+	justify-content: center;
+	align-items: center;
+	gap: 15px;
+	margin-bottom: 15px;
 }
 
-.player__field {
-	width: 100px;
-	height: 25px;
+.player__field--name {
+	width: auto;
+	height: auto;
+}
+
+.player__field--nameInput {
+	width: auto;
+	height: auto;
+}
+
+.player__field--mark {
+	width: auto;
+	height: auto;
+}
+
+.player__field--markInput {
+	width: auto;
+	height: auto;
 }
 
 .board {
