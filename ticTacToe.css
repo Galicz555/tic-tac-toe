@@ -7,6 +7,17 @@ body {
 	margin: 0;
 }
 
+.players__options {
+	display: grid;
+	grid-template-columns: repeat(4, auto);
+	align-content: center;
+}
+
+.player__field {
+	width: 100px;
+	height: 25px;
+}
+
 .board {
 	width: 100vw;
 	height: 100vh;
