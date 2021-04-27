@@ -1,3 +1,30 @@
 *, *::after, *::before {
 	box-sizing: border-box;
 }
+
+:root {
+	--columnRow: 3;
+	--gridHeight: 100px;
+}
+
+body {
+	margin: 0;
+}
+
+.board {
+	width: 100vw;
+	height: 100vh;
+	display: grid;
+	grid-template-columns: repeat(var(--columnRow), auto);
+	grid-template-rows: repeat(var(--columnRow), var(--gridHeight));
+	justify-content: center;
+	align-content: center;
+}
+
+.board__square {
+	width: 100px;
+	height: var(--gridHeight);
+	background-color: white;
+	border: 1px solid black;
+
+}
