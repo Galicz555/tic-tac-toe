@@ -3,6 +3,7 @@
 let ticTacToe = {
 	init: function () {
 		ticTacToe.players = [];
+		ticTacToe.squares = [];
 
 		ticTacToe.playerOptions = document.getElementById('players__options');
 		ticTacToe.playersNumber = document.getElementById('playersNumber');
@@ -40,7 +41,8 @@ let ticTacToe = {
 			this.clearHtmlBoard();
 			this.columnSetterFieldValue = e.target.value;
 			this.setHtmlBoardSize();
-			this.squares = document.querySelectorAll('board__square')
+			this.squares = document.querySelectorAll('board__square');
+			this.addSquareClickListener();
 		});
 	},
 
@@ -114,25 +116,80 @@ let ticTacToe = {
 	},
 
 	addSquareClickListener: function () {
-		const squares = Array.from(document.getElementsByClassName('board__square'))
-		squares.forEach(square => {
+		this.squares = Array.from(document.getElementsByClassName('board__square'))
+		this.squares.forEach(square => {
 			square.addEventListener('click', this.handleClick, { once: true });
 		});
 	},
 
 	handleClick: function (e) {
 		const square = e.target;
+		square.textContent = Object.values(ticTacToe.players[ticTacToe.turn])
+		const valueArray = ticTacToe.squares.map(element => element.textContent)
+		const matrix = ticTacToe.toMatrix(valueArray, ticTacToe.columnSetterFieldValue)
+		ticTacToe.isWin(matrix, square.textContent);
 		ticTacToe.turnProgress();
-		square.textContent = Object.values(ticTacToe.players[ticTacToe.turn-1])
+		// console.log(isWin())
+		//checkdraw
+	},
+
+	toMatrix: function(arr, width) {
+		return arr.reduce((rows, key, index) => (
+			index % width == 0
+			? rows.push([key]) 
+			: rows[rows.length-1].push(key)) && rows
+			,[]);
+	},
+
+	isWin: function (matrix, mark) {
+		this.checkVertical(matrix, mark)
+			/*return this.checkVertical(matrix, mark) 
+				|| this.checkHorizontal()
+				|| this.checkDiagonal1()
+				|| this.checkDiagonal2();*/
+	},
+
+	checkVertical: function (matrix, mark) {
+		for (let i = 0; i < matrix.length; i++) {
+			let vertical = [];
+			for (let k = 0; k <= matrix[i].length - 5; k++ ) {
+				if ((matrix[k][i] === mark
+					&& matrix[k+1][i] === mark
+					&& matrix[k+2][i] === mark
+					&& matrix[k+3][i] === mark
+					&& matrix[k+4][i] === mark)) {
+					alert('winner')
+				}
+
+				/*if (matrix[k][i] === mark
+					&& (matrix[k+1][i] !== '' && matrix[k+1][i] === mark)
+					) vertical.push(true);
+				else vertical.push(false);*/
+			}
+			console.log(vertical)
+		}
+	},
+
+	checkHorizontal: function () {
+	},
+
+	checkDiagonal1: function (){
+		// exercise for the reader
+		return false;
+	},
+	
+	checkDiagonal2: function (){
+		// exercise for the reader
+		return false;
 	},
 
 	turnProgress: function () {
-		if (this.turn >= this.players.length) {
-			this.turn = 0;
-		}
-		this.turn++;
+		ticTacToe.turn++;
 		let stringArray = document.getElementById('turnIndicator').textContent.split("'");
-		stringArray[0] = Object.keys(this.players[this.turn-1]);
+		if (ticTacToe.turn >= ticTacToe.players.length) {
+			ticTacToe.turn = 0;
+		}
+		stringArray[0] = Object.keys(this.players[this.turn]);
 		let newString = stringArray.join("'")
 		document.getElementById('turnIndicator').textContent = newString;
 	},
