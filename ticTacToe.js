@@ -142,7 +142,7 @@ let ticTacToe = {
 	},
 
 	isWin: function (matrix, mark) {
-		this.checkHorizontal(matrix, mark)
+		this.checkDiagonal1(matrix, mark)
 			/*return this.checkVertical(matrix, mark) 
 				|| this.checkHorizontal()
 				|| this.checkDiagonal1()
@@ -161,6 +161,7 @@ let ticTacToe = {
 				}
 			}
 		}
+		return false;
 	},
 
 	checkHorizontal: function (matrix, mark) {
@@ -175,15 +176,34 @@ let ticTacToe = {
 				}
 			}
 		}
-	},
-
-	checkDiagonal1: function (){
-		// exercise for the reader
 		return false;
 	},
+
+	checkDiagonal1: function (matrix, mark) {
+		let array = [];
+		for (let i = 0; i < matrix.length; i++) {
+			for (let k = 0; k < matrix[i].length; k++ ) {
+				if (i === k && matrix[k][i] === mark) {
+					array.push(true)
+				}
+				if (i === k && matrix[k][i] !== mark) {
+					array.push(false)
+				}
+			}
+		}
+		for (let z = 0; z <= array.length-5; z++) {
+			if (array[z] === true
+				&& array[z+1] === true
+				&& array[z+2] === true
+				&& array[z+3] === true
+				&& array[z+4] === true) {
+					return false
+			}
+		}
+		return false
+	},
 	
-	checkDiagonal2: function (){
-		// exercise for the reader
+	checkDiagonal2: function (matrix, mark) {
 		return false;
 	},
 
