@@ -12,6 +12,7 @@ let ticTacToe = {
 		).value;
 		ticTacToe.playerOptionButton = document.getElementById('optionAccepter');
 		ticTacToe.restartButton = document.getElementById('restartButton');
+		ticTacToe.winningMessage = document.getElementById('winningMessage');
 
 		ticTacToe.playerNameArray = [];
 		ticTacToe.playerMarkArray = [];
@@ -34,12 +35,13 @@ let ticTacToe = {
 		this.setHtmlBoardSize();
 		this.addBoardChangeListener();
 		this.addSquareClickListener();
+		this.addRestartButtonListener();
 	},
 
 	addBoardChangeListener: function () {
 		this.columnSetterField.addEventListener('change', (e) => {
 			document.documentElement.style.setProperty('--columnRow', e.target.value);
-			this.clearHtmlBoard();
+			this.deleteHtmlBoard();
 			this.columnSetterFieldValue = e.target.value;
 			this.setHtmlBoardSize();
 			this.squares = document.querySelectorAll('board__square');
@@ -84,7 +86,18 @@ let ticTacToe = {
 			}
 			document.getElementById('turnIndicator').textContent =
 				Object.keys(this.players[this.turn]) + "'s turn";
+			this.inGame(true);
 		});
+	},
+
+	inGame: function (status) {
+		if (status) {
+			this.playersSetter.disabled = true;
+			this.columnSetterField.disabled = true;
+		} else {
+		this.playersSetter.disabled = false;
+		this.columnSetterField.disabled = false;
+		}
 	},
 
 	setNumberOfPlayerOptions: function () {
@@ -128,11 +141,12 @@ let ticTacToe = {
 		square.textContent = Object.values(ticTacToe.players[ticTacToe.turn])
 		const valueArray = ticTacToe.squares.map(element => element.textContent)
 		const matrix = ticTacToe.toMatrix(valueArray, ticTacToe.columnSetterFieldValue);
+		square.className += '--filled';
 		if (ticTacToe.isWin(matrix, square.textContent)) {
-			console.log('win');
+			ticTacToe.restartButton.style.setProperty('display', 'block');
+			ticTacToe.winningMessage.style.setProperty('display', 'block');
 		}
 		ticTacToe.turnProgress();
-		square.className += '--filled';
 		// console.log(isWin())
 		//checkdraw
 	},
@@ -258,16 +272,24 @@ let ticTacToe = {
 		}
 	},
 
-	clearHtmlBoard: function () {
+	deleteHtmlBoard: function () {
 		while (this.board.firstChild) {
 			this.board.removeChild(this.board.firstChild);
 		}
 	},
+	
+
+	clearHtmlBoard: function () {
+		this.squares = Array.from(document.getElementsByClassName('board__square'))
+			.concat(Array.from(document.getElementsByClassName('board__square--filled')));
+		this.squares.forEach(element => element.textContent = '');
+	},
 
 	addRestartButtonListener: function () {
 		this.restartButton.addEventListener('click', (e) => {
-			// hide options
-			this.playerOptions.style.setProperty('display', 'grid')
+			this.playerOptions.style.setProperty('display', 'grid');
+			this.inGame();
+			ticTacToe.clearHtmlBoard();
 		});
 	},
 };
