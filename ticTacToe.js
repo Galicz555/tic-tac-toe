@@ -143,10 +143,10 @@ let ticTacToe = {
 
 	isWin: function (matrix, mark) {
 		this.checkDiagonal1(matrix, mark)
-			/*return this.checkVertical(matrix, mark) 
-				|| this.checkHorizontal()
-				|| this.checkDiagonal1()
-				|| this.checkDiagonal2();*/
+		/*return this.checkVertical(matrix, mark) 
+			|| this.checkHorizontal(matrix, mark)
+			|| this.checkDiagonal1(matrix, mark)
+			|| this.checkDiagonal2(matrix, mark);*/
 	},
 
 	checkVertical: function (matrix, mark) {
@@ -180,27 +180,30 @@ let ticTacToe = {
 	},
 
 	checkDiagonal1: function (matrix, mark) {
-		let array = [];
-		for (let i = 0; i < matrix.length; i++) {
-			for (let k = 0; k < matrix[i].length; k++ ) {
-				if (i === k && matrix[k][i] === mark) {
+		for (let k = 0; k <= 2 * (matrix.length - 1); k++) {
+			let array = [];
+			for (let y = matrix.length -1; y >= 0; y--) {
+				let x = k - y;
+				if (x >= 0 && x < matrix.length && matrix[y][x] === mark) {
 					array.push(true)
 				}
-				if (i === k && matrix[k][i] !== mark) {
+				if (x >= 0 && x < matrix.length && matrix[y][x] !== mark) {
 					array.push(false)
 				}
 			}
-		}
-		for (let z = 0; z <= array.length-5; z++) {
-			if (array[z] === true
-				&& array[z+1] === true
-				&& array[z+2] === true
-				&& array[z+3] === true
-				&& array[z+4] === true) {
-					return false
+			if (array.length >= 5) {
+				for (let z = 0; z <= array.length-5; z++) {
+					if (array[z] === true
+						&& array[z+1] === true
+						&& array[z+2] === true
+						&& array[z+3] === true
+						&& array[z+4] === true) {
+							alert('winner');
+					}
+				}
 			}
 		}
-		return false
+		return false;
 	},
 	
 	checkDiagonal2: function (matrix, mark) {
