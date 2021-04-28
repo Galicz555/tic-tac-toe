@@ -142,7 +142,7 @@ let ticTacToe = {
 	},
 
 	isWin: function (matrix, mark) {
-		this.checkVertical(matrix, mark)
+		this.checkHorizontal(matrix, mark)
 			/*return this.checkVertical(matrix, mark) 
 				|| this.checkHorizontal()
 				|| this.checkDiagonal1()
@@ -151,26 +151,30 @@ let ticTacToe = {
 
 	checkVertical: function (matrix, mark) {
 		for (let i = 0; i < matrix.length; i++) {
-			let vertical = [];
 			for (let k = 0; k <= matrix[i].length - 5; k++ ) {
 				if ((matrix[k][i] === mark
 					&& matrix[k+1][i] === mark
 					&& matrix[k+2][i] === mark
 					&& matrix[k+3][i] === mark
 					&& matrix[k+4][i] === mark)) {
-					alert('winner')
+					return true;
 				}
-
-				/*if (matrix[k][i] === mark
-					&& (matrix[k+1][i] !== '' && matrix[k+1][i] === mark)
-					) vertical.push(true);
-				else vertical.push(false);*/
 			}
-			console.log(vertical)
 		}
 	},
 
-	checkHorizontal: function () {
+	checkHorizontal: function (matrix, mark) {
+		for (let i = 0; i < matrix.length; i++) {
+			for (let k = 0; k <= matrix[i].length - 5; k++ ) {
+				if ((matrix[i][k] === mark
+					&& matrix[i][k+1] === mark
+					&& matrix[i][k+2] === mark
+					&& matrix[i][k+3] === mark
+					&& matrix[i][k+4] === mark)) {
+					return true;
+				}
+			}
+		}
 	},
 
 	checkDiagonal1: function (){
