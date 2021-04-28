@@ -9,21 +9,21 @@
 	<title>Tic-Tac-Toe</title>
 </head>
 <body>
-	<div class="players">
-		<div class="players__numbers">
+	<div class="optionContainer">
+		<div class="optionContainer__playersSetter">
 			<label>Number of Players</label>
-			<input id="playersNumber" type="number" value="2">
+			<input id="playersSetter" type="number" value="2">
+			<label>Board size</label>
+			<input id="columnSetterField" type="number" class="optionContainer__board" value="10">
+			<button type="button" id="optionAccepter"  class="optionContainer__optionAccepter">Start</button>
 		</div>
-		<div id="players__options" class="players__options"></div>
-		<button id="optionAccepter" type="button">Start</button>
+		<div id="playerOptions" class="optionContainer__playerOptions"></div>
 	</div>
 	<div>
-		<div id="turnIndicator">'s turn</div>
-		<label>Board size</label>
-		<input id="columnSetterField" type="number" value="10">
+		<div id="turnIndicator" class="turnIndicator">Player1's turn</div>
 	</div>
 	<div id="board" class="board"></div>
 	<div class="winningMessage">Victory!!</div>
-	<button type="button" class="restartButton">Restart</button>
+	<button type="button" id="restartButton" class="restartButton">Restart</button>
 </body>
 </html>

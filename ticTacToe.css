@@ -1,23 +1,33 @@
 :root {
 	--columnRow: 10;
 	--gridSize: 50px;
+	--mark: 'X';
 }
 
 body {
 	margin: 0;
 }
 
-.players__numbers {
-	margin-bottom: 15px;
-}
-
-.players__options {
+.optionContainer__playersSetter {
 	display: grid;
 	grid-template-columns: repeat(4, auto);
 	justify-content: center;
 	align-items: center;
 	gap: 15px;
 	margin-bottom: 15px;
+}
+
+.optionContainer__playerOptions {
+	display: grid;
+	grid-template-columns: repeat(4, auto);
+	justify-content: center;
+	align-items: center;
+	gap: 15px;
+	margin-bottom: 15px;
+}
+
+.optionContainer__optionAccepter {
+	grid-column: span 4;
 }
 
 .player__field--name {
@@ -40,9 +50,11 @@ body {
 	height: auto;
 }
 
+.turnIndicator {
+	text-align: center;
+}
+
 .board {
-	width: 100vw;
-	height: 100vh;
 	display: grid;
 	grid-template-columns: repeat(var(--columnRow), auto);
 	grid-template-rows: repeat(var(--columnRow), var(--gridSize));
@@ -59,4 +71,33 @@ body {
 	align-items: center;
 	font-weight: bolder;
 	font-size: 2.5rem;
+	cursor: pointer;
+}
+
+.board__square--filled {
+	width: var(--gridSize);
+	height: var(--gridSize);
+	border: 1px solid black;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: bolder;
+	font-size: 2.5rem;
+	cursor: not-allowed;
+}
+
+.board__square:not(.filled):hover::before {
+	width: var(--gridSize);
+	height: var(--gridSize);
+	content: var(--mark);
+	display: contents;
+	color: lightgray;
+}
+
+.restartButton {
+	display: none;
+}
+
+.winningMessage {
+	display: none;
 }

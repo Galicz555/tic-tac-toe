@@ -5,12 +5,13 @@ let ticTacToe = {
 		ticTacToe.players = [];
 		ticTacToe.squares = [];
 
-		ticTacToe.playerOptions = document.getElementById('players__options');
-		ticTacToe.playersNumber = document.getElementById('playersNumber');
-		ticTacToe.playersNumberValue = document.getElementById(
-			'playersNumber'
+		ticTacToe.playerOptions = document.getElementById('playerOptions');
+		ticTacToe.playersSetter = document.getElementById('playersSetter');
+		ticTacToe.playersSetterValue = document.getElementById(
+			'playersSetter'
 		).value;
 		ticTacToe.playerOptionButton = document.getElementById('optionAccepter');
+		ticTacToe.restartButton = document.getElementById('restartButton');
 
 		ticTacToe.playerNameArray = [];
 		ticTacToe.playerMarkArray = [];
@@ -47,9 +48,9 @@ let ticTacToe = {
 	},
 
 	addPlayerNumberChangeListener: function () {
-		this.playersNumber.addEventListener('change', (e) => {
+		this.playersSetter.addEventListener('change', (e) => {
 			this.clearPlayerOptions();
-			this.playersNumberValue = e.target.value;
+			this.playersSetterValue = e.target.value;
 			this.setNumberOfPlayerOptions();
 		});
 	},
@@ -57,11 +58,12 @@ let ticTacToe = {
 	addOptionAccepterListener: function () {
 		this.playerOptionButton.addEventListener('click', (e) => {
 			// hide options
+			this.playerOptions.style.setProperty('display', 'none')
 			// set player array
 			this.players = [];
-			let reserveMarks = ['x', 'o', '#', '|', '[', ']', '$'];
+			let reserveMarks = ['X', 'O', '#', '|', '[', ']', '$'];
 			let counter = 0;
-			for (let i = 0; i < this.playersNumberValue; i++) {
+			for (let i = 0; i < this.playersSetterValue; i++) {
 				let nameInput = document.getElementsByClassName(
 					'player__field--nameInput'
 				)[i].value;
@@ -69,7 +71,7 @@ let ticTacToe = {
 					'player__field--markInput'
 				)[i].value;
 				if (nameInput && markInput) {
-					this.players.push({ [nameInput]: markInput });
+					this.players.push({ [nameInput]: markInput.toUpperCase() });
 				} else if (nameInput && !markInput) {
 					this.players.push({ [nameInput]: reserveMarks[counter] });
 				} else if (counter < reserveMarks.length) {
@@ -81,13 +83,12 @@ let ticTacToe = {
 				counter++;
 			}
 			document.getElementById('turnIndicator').textContent =
-				Object.keys(this.players[this.turn])
-				+ this.playerTurnIndicator.textContent;
+				Object.keys(this.players[this.turn]) + "'s turn";
 		});
 	},
 
 	setNumberOfPlayerOptions: function () {
-		for (let i = 0; i < this.playersNumberValue; i++) {
+		for (let i = 0; i < this.playersSetterValue; i++) {
 			this.playerNameArray[i] = document.createElement('div');
 			this.playerNameArray[i].className = 'player__field--name';
 			this.playerNameArray[i].textContent = `Player${i + 1}: `;
@@ -97,7 +98,7 @@ let ticTacToe = {
 
 			this.playerMarkArray[i] = document.createElement('div');
 			this.playerMarkArray[i].className = 'player__field--mark';
-			this.playerMarkArray[i].textContent = 'Sign to use: ';
+			this.playerMarkArray[i].textContent = 'Mark: ';
 
 			this.playerMarkInputArray[i] = document.createElement('input');
 			this.playerMarkInputArray[i].className = 'player__field--markInput';
@@ -126,9 +127,12 @@ let ticTacToe = {
 		const square = e.target;
 		square.textContent = Object.values(ticTacToe.players[ticTacToe.turn])
 		const valueArray = ticTacToe.squares.map(element => element.textContent)
-		const matrix = ticTacToe.toMatrix(valueArray, ticTacToe.columnSetterFieldValue)
-		ticTacToe.isWin(matrix, square.textContent);
+		const matrix = ticTacToe.toMatrix(valueArray, ticTacToe.columnSetterFieldValue);
+		if (ticTacToe.isWin(matrix, square.textContent)) {
+			console.log('win');
+		}
 		ticTacToe.turnProgress();
+		square.className += '--filled';
 		// console.log(isWin())
 		//checkdraw
 	},
@@ -142,11 +146,10 @@ let ticTacToe = {
 	},
 
 	isWin: function (matrix, mark) {
-		this.checkDiagonal1(matrix, mark)
-		/*return this.checkVertical(matrix, mark) 
+		return this.checkVertical(matrix, mark) 
 			|| this.checkHorizontal(matrix, mark)
 			|| this.checkDiagonal1(matrix, mark)
-			|| this.checkDiagonal2(matrix, mark);*/
+			|| this.checkDiagonal2(matrix, mark);
 	},
 
 	checkVertical: function (matrix, mark) {
@@ -198,7 +201,7 @@ let ticTacToe = {
 						&& array[z+2] === true
 						&& array[z+3] === true
 						&& array[z+4] === true) {
-							alert('winner');
+							return true;
 					}
 				}
 			}
@@ -207,6 +210,29 @@ let ticTacToe = {
 	},
 	
 	checkDiagonal2: function (matrix, mark) {
+		for (let k = 0; k <= 2 * (matrix.length - 1); k++) {
+			let array = [];
+			for (let y = matrix.length -1; y >= 0; y--) {
+				let x = k - (matrix.length - y);
+				if (x >= 0 && x < matrix.length && matrix[y][x] === mark) {
+					array.push(true)
+				}
+				if (x >= 0 && x < matrix.length && matrix[y][x] !== mark) {
+					array.push(false)
+				}
+			}
+			if (array.length >= 5) {
+				for (let z = 0; z <= array.length-5; z++) {
+					if (array[z] === true
+						&& array[z+1] === true
+						&& array[z+2] === true
+						&& array[z+3] === true
+						&& array[z+4] === true) {
+							return true;
+					}
+				}
+			}
+		}
 		return false;
 	},
 
@@ -216,14 +242,15 @@ let ticTacToe = {
 		if (ticTacToe.turn >= ticTacToe.players.length) {
 			ticTacToe.turn = 0;
 		}
-		stringArray[0] = Object.keys(this.players[this.turn]);
+		stringArray[0] = Object.keys(this.players[this.turn]);	
 		let newString = stringArray.join("'")
 		document.getElementById('turnIndicator').textContent = newString;
+		document.documentElement.style.setProperty('--mark', `\'${Object.values(this.players[this.turn])[0]}\'`);
 	},
 
 	setHtmlBoardSize: function () {
 		let squareArray = [];
-		for (let i = 0;i < this.columnSetterFieldValue * this.columnSetterFieldValue; i++) {
+		for (let i = 0; i < this.columnSetterFieldValue * this.columnSetterFieldValue; i++) {
 			squareArray[i] = document.createElement('div');
 			squareArray[i].className = 'board__square';
 
@@ -235,6 +262,13 @@ let ticTacToe = {
 		while (this.board.firstChild) {
 			this.board.removeChild(this.board.firstChild);
 		}
+	},
+
+	addRestartButtonListener: function () {
+		this.restartButton.addEventListener('click', (e) => {
+			// hide options
+			this.playerOptions.style.setProperty('display', 'grid')
+		});
 	},
 };
 
