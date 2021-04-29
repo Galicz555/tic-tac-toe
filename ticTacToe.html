@@ -12,21 +12,22 @@
 	<div class="optionContainer">
 		<div class="optionContainer__playersSetter">
 			<label>Number of Players</label>
-			<input id="playersSetter" type="number" value="2">
+			<input id="playersNumberField" type="number" value="2">
 			<label>Board size</label>
-			<input id="columnSetterField" type="number" class="optionContainer__board" value="10">
-			<button type="button" id="optionAccepter"  class="optionContainer__optionAccepter">Start</button>
+			<input id="boardSizeField" type="number" value="10">
+			<button type="button" id="optionAccepter"  class="optionContainer__optionAccepter">Press to set players</button>
 		</div>
 		<div id="playerOptions" class="optionContainer__playerOptions"></div>
 	</div>
 	<div>
 		<div id="turnIndicator" class="turnIndicator">Player1's turn</div>
 	</div>
+	<button type="button" class="messageContainer__restartButton">Restart</button>
 	<div id="board" class="board"></div>
 	<div id="messageContainer" class="messageContainer">
 		<div id="winningMessage" class="messageContainer__winningMessage"></div>
 		<div id="drawMessage" class="messageContainer__drawMessage">Draw!</div>
-		<button type="button" id="restartButton" class="messageContainer__restartButton">Restart</button>
+		<button type="button" class="messageContainer__restartButton">Restart</button>
 	</div>
 </body>
 </html>

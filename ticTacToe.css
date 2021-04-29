@@ -6,11 +6,14 @@
 
 body {
 	margin: 0;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
 }
 
 .optionContainer__playersSetter {
 	display: grid;
-	grid-template-columns: repeat(4, auto);
+	grid-template-columns: repeat(2, auto);
 	justify-content: center;
 	align-items: center;
 	gap: 15px;
@@ -19,7 +22,7 @@ body {
 
 .optionContainer__playerOptions {
 	display: grid;
-	grid-template-columns: repeat(4, auto);
+	grid-template-columns: repeat(2, auto);
 	justify-content: center;
 	align-items: center;
 	gap: 15px;
@@ -27,7 +30,7 @@ body {
 }
 
 .optionContainer__optionAccepter {
-	grid-column: span 4;
+	grid-column: span 2;
 }
 
 .player__field--name {
@@ -52,6 +55,10 @@ body {
 
 .turnIndicator {
 	text-align: center;
+	font-size: 2rem;
+	font-weight: bold;
+	text-transform: uppercase;
+	margin-bottom: 15px;
 }
 
 .board {
@@ -110,6 +117,24 @@ body {
 	align-items: center;
 }
 
+.messageContainer__restartButton {
+	margin-bottom: 15px;
+}
+
 .hide {
 	display: none;
+}
+
+@media screen and (min-width: 500px) {
+	.optionContainer__playerOptions{
+		grid-template-columns: repeat(4, auto);
+	}
+
+	.optionContainer__playersSetter {
+		grid-template-columns: repeat(4, auto);
+	}
+
+	.optionContainer__optionAccepter {
+		grid-column: span 4;
+	}
 }
